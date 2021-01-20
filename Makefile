@@ -38,7 +38,8 @@ create_checkpoint:
 		--cacheline_size=64 \
 		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
-		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS
+		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS \
+		;
 
 # Running with ruby:
 #   The more accurate cache simulation takes --ruby, --topology and --mesh-rows for simulation:
@@ -49,6 +50,7 @@ create_checkpoint:
 #		--mem-type=SimpleMemory \
 
 run_sim:
+	rm -rf $(TEST_DIR)
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
 	$(GEM5_EXEC) \
@@ -68,21 +70,25 @@ run_sim:
 		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
 		-r 1 \
-		--restore-with-cpu=TimingSimpleCPU
+		--restore-with-cpu=TimingSimpleCPU \
+		--script=$(SCRIPTS_DIR)/runscript \
+		;
+
+# Content of --script will be executed automatically. Be sure to call /sbin/m5 exit to finish simulation cleanly.
+# Otherwise, connect to the running simulation with:
+#    telnet localhost 3456
 
 simple:
 	$(GEM5_EXEC) \
 		--outdir=test_simple \
-		$(SCRIPTS_DIR)/simple.py
+		$(SCRIPTS_DIR)/simple.py \
+		;
 
 two_level:
 	$(GEM5_EXEC) \
 		--outdir=test_two_level \
-		$(SCRIPTS_DIR)/two_level.py
+		$(SCRIPTS_DIR)/two_level.py \
+		;
 
 
 
-# This can be used to execute tests automatically in above command
-#    --script=$(M5_DIR)/gem5_1_30_2020/gem5/16core_parsec.rcS \
-# Otherwise, connect to the running simulation with:
-# telnet localhost 3456

@@ -1,0 +1,10 @@
+#!/bin/sh
+
+echo "Jose got it working" >> guest_sim_results
+date >> guest_sim_results
+
+
+# Copy files from guest to host
+# /sbin/m5 writefile guest host
+/sbin/m5 writefile guest_sim_results sim_results
+/sbin/m5 exit
