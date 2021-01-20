@@ -49,5 +49,8 @@ cp -r checkpoint/cpt.* 16core_parsec_test/.
     -r 1 \
     --restore-with-cpu=TimingSimpleCPU
 
+# This can be used to execute tests automatically in above command
+#    --script=$M5_PATH/gem5_1_30_2020/gem5/16core_parsec.rcS \
+
 # Connect to running sim
 telnet localhost 3456
