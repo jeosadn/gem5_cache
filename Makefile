@@ -6,6 +6,7 @@ GEM5_EXEC=$(GEM5_DIR)/build/X86/gem5.opt
 TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
 CHECKPOINT_DIR=checkpoint
 TEST_DIR=test
+SCRIPTS_DIR=scripts
 
 install_dependencies:
 	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
@@ -59,6 +60,18 @@ run_sim:
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU
+
+simple:
+	$(GEM5_EXEC) \
+		--outdir=test_simple \
+		$(SCRIPTS_DIR)/simple.py
+
+two_level:
+	$(GEM5_EXEC) \
+		--outdir=test_two_level \
+		$(SCRIPTS_DIR)/two_level.py
+
+
 
 # This can be used to execute tests automatically in above command
 #    --script=$(M5_DIR)/gem5_1_30_2020/gem5/16core_parsec.rcS \
