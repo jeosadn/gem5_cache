@@ -3,8 +3,9 @@
 M5_DIR=$(PWD)/m5
 GEM5_DIR=$(PWD)/gem5
 GEM5_EXEC=$(GEM5_DIR)/build/X86/gem5.opt
+TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
 CHECKPOINT_DIR=checkpoint
-TEST_DIR=16core_parsec_test
+TEST_DIR=test
 
 install_dependencies:
 	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
@@ -20,7 +21,7 @@ compile_gem5:
 create_checkpoint:
 	$(GEM5_EXEC) \
 		--outdir=$(CHECKPOINT_DIR) \
-		$(GEM5_DIR)/configs/example/fs.py \
+		$(TOPO_SCRIPT) \
 		--num-cpus=16 \
 		--num-dirs=16 \
 		--num-l2caches=16 \
@@ -40,7 +41,7 @@ create_checkpoint:
 run_sim:
 	$(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
-		$(GEM5_DIR)/configs/example/fs.py \
+		$(TOPO_SCRIPT) \
 		--ruby \
 		--topology=Mesh_XY \
 		--mesh-rows=4 \
