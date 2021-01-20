@@ -41,16 +41,20 @@ create_checkpoint:
 		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS
 
 # Running with ruby:
-#   The more accurate cache simulation takes --ruby, --topology and --mesh-rows for simulation
+#   The more accurate cache simulation takes --ruby, --topology and --mesh-rows for simulation:
+#		--ruby \
+#		--topology=Mesh_XY \
+#		--mesh-rows=4 \
+#   Otherwise, use simplememory:
+#		--mem-type=SimpleMemory \
+
 run_sim:
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
 	$(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
-		--ruby \
-		--topology=Mesh_XY \
-		--mesh-rows=4 \
+		--mem-type=SimpleMemory \
 		--num-cpus=16 \
 		--num-dirs=16 \
 		--num-l2caches=16 \
