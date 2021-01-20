@@ -19,6 +19,9 @@ compile_gem5:
 		&& git reset --hard 9fc9c67b4242c03f165951775be5cd0812f2a705 \
 		&& scons $(GEM5_EXEC) PROCOTOL=MOESI_CMP_directory --ignore-style
 
+# The configuration currently in use:
+#   Uses atomic cpu, doesn't simulate instruction timing execution
+
 create_checkpoint:
 	$(GEM5_EXEC) \
 		--outdir=$(CHECKPOINT_DIR) \
@@ -36,10 +39,12 @@ create_checkpoint:
 		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
 		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS
+
+# Running with ruby:
+#   The more accurate cache simulation takes --ruby, --topology and --mesh-rows for simulation
+run_sim:
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
-
-run_sim:
 	$(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
