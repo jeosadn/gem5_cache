@@ -10,11 +10,13 @@ SCRIPTS_DIR=scripts
 L2_SIZE=2MB
 
 install_dependencies:
+	echo "Installing dependencies"
 	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
 		libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev \
 		python-dev python-six python libboost-all-dev pkg-config
 
 compile_gem5:
+	echo "Compiling gem5"
 	git clone https://gem5.googlesource.com/public/gem5
 	cd $(GEM5_DIR) \
 		&& git reset --hard 9fc9c67b4242c03f165951775be5cd0812f2a705 \
@@ -24,6 +26,7 @@ compile_gem5:
 #   Uses atomic cpu, doesn't simulate instruction timing execution
 
 create_checkpoint:
+	echo "Creating checkpoint with L2_SIZE=$(L2_SIZE), CHECKPOINT_DIR=$(CHECKPOINT_DIR)"
 	$(GEM5_EXEC) \
 		--outdir=$(CHECKPOINT_DIR) \
 		$(TOPO_SCRIPT) \
@@ -50,7 +53,8 @@ create_checkpoint:
 #   Otherwise, use simplememory:
 #		--mem-type=SimpleMemory \
 
-run_sim:
+run_sim_simple:
+	echo "Running simple simulation with L2_SIZE=$(L2_SIZE), CHECKPOINT_DIR=$(CHECKPOINT_DIR), TEST_DIR=$(TEST_DIR)"
 	rm -rf $(TEST_DIR)
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
@@ -75,7 +79,36 @@ run_sim:
 		--script=$(SCRIPTS_DIR)/runscript \
 		;
 
+run_sim_ruby:
+	echo "Running ruby simulation with L2_SIZE=$(L2_SIZE), CHECKPOINT_DIR=$(CHECKPOINT_DIR), TEST_DIR=$(TEST_DIR)"
+	rm -rf $(TEST_DIR)
+	mkdir -p $(TEST_DIR)
+	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
+	$(GEM5_EXEC) \
+		--outdir=$(TEST_DIR) \
+		$(TOPO_SCRIPT) \
+		--ruby \
+		--topology=Mesh_XY \
+		--mesh-rows=4 \
+		--num-cpus=16 \
+		--num-dirs=16 \
+		--num-l2caches=16 \
+		--l1d_size=256kB \
+		--l1i_size=256kB \
+		--l2_size=$(L2_SIZE) \
+		--l1d_assoc=8 \
+		--l1i_assoc=8 \
+		--l2_assoc=16 \
+		--cacheline_size=64 \
+		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
+		--disk-image=$(M5_DIR)/disks/linux_12G.img \
+		-r 1 \
+		--restore-with-cpu=TimingSimpleCPU \
+		--script=$(SCRIPTS_DIR)/runscript \
+		;
+
 interactive:
+	echo "Running interactive simulation with L2_SIZE=$(L2_SIZE), CHECKPOINT_DIR=$(CHECKPOINT_DIR), TEST_DIR=$(TEST_DIR)"
 	rm -rf $(TEST_DIR)
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
