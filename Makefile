@@ -7,6 +7,7 @@ TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
 CHECKPOINT_DIR=checkpoint
 TEST_DIR=test
 SCRIPTS_DIR=scripts
+L2_SIZE=2MB
 
 install_dependencies:
 	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
@@ -31,7 +32,7 @@ create_checkpoint:
 		--num-l2caches=16 \
 		--l1d_size=256kB \
 		--l1i_size=256kB \
-		--l2_size=2MB \
+		--l2_size=$(L2_SIZE) \
 		--l1d_assoc=8 \
 		--l1i_assoc=8 \
 		--l2_assoc=16 \
@@ -62,7 +63,7 @@ run_sim:
 		--num-l2caches=16 \
 		--l1d_size=256kB \
 		--l1i_size=256kB \
-		--l2_size=2MB \
+		--l2_size=$(L2_SIZE) \
 		--l1d_assoc=8 \
 		--l1i_assoc=8 \
 		--l2_assoc=16 \
@@ -72,6 +73,30 @@ run_sim:
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
 		--script=$(SCRIPTS_DIR)/runscript \
+		;
+
+interactive:
+	rm -rf $(TEST_DIR)
+	mkdir -p $(TEST_DIR)
+	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
+	$(GEM5_EXEC) \
+		--outdir=$(TEST_DIR) \
+		$(TOPO_SCRIPT) \
+		--mem-type=SimpleMemory \
+		--num-cpus=16 \
+		--num-dirs=16 \
+		--num-l2caches=16 \
+		--l1d_size=256kB \
+		--l1i_size=256kB \
+		--l2_size=$(L2_SIZE) \
+		--l1d_assoc=8 \
+		--l1i_assoc=8 \
+		--l2_assoc=16 \
+		--cacheline_size=64 \
+		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
+		--disk-image=$(M5_DIR)/disks/linux_12G.img \
+		-r 1 \
+		--restore-with-cpu=TimingSimpleCPU \
 		;
 
 # Content of --script will be executed automatically. Be sure to call /sbin/m5 exit to finish simulation cleanly.
