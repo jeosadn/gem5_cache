@@ -10,13 +10,6 @@ tar xvf pkgs/apps/blackscholes/inputs/input_test.tar
 /sbin/m5 dumpstats
 /sbin/m5 writefile perf_blackscholes perf_blackscholes
 
-## Body Track
-#tar xvf pkgs/apps/bodytrack/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/bodytrack/inst/amd64-linux.gcc/bin/bodytrack sequenceB_1 4 1 5 1 0 16 ; } > perf_bodytrack 2>> perf_bodytrack
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_bodytrack perf_bodytrack
-
 # Canneal
 tar xvf pkgs/kernels/canneal/inputs/input_test.tar
 /sbin/m5 resetstats
@@ -24,53 +17,66 @@ tar xvf pkgs/kernels/canneal/inputs/input_test.tar
 /sbin/m5 dumpstats
 /sbin/m5 writefile perf_canneal perf_canneal
 
-## Dedup
-#tar xvf pkgs/kernels/dedup/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/kernels/dedup/inst/amd64-linux.gcc/bin/dedup -c -p -v -t 16 -i test.dat -o output.dat.ddp ; } > perf_dedup 2>> perf_dedup
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_dedup perf_dedup
-#
-## Ferret
-#tar xvf pkgs/apps/ferret/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/ferret/inst/amd64-linux.gcc/bin/ferret corel lsh queries 5 5 16 output.txt ; } > perf_ferret 2>> perf_ferret
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_ferret perf_ferret
-#
-## Fluid Animate
-#tar xvf pkgs/apps/fluidanimate/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/fluidanimate/inst/amd64-linux.gcc/bin/fluidanimate 16 1 in_5K.fluid out.fluid ; } > perf_fluidanimate 2>> perf_fluidanimate
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_fluidanimate perf_fluidanimate
-#
-## freqmine
-#tar xvf pkgs/apps/freqmine/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/freqmine/inst/amd64-linux.gcc/bin/freqmine T10I4D100K_3.dat 1 ; } > perf_freqmine 2>> perf_freqmine
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_freqmine perf_freqmine
-#
-## Raytrace
-#tar xvf pkgs/apps/raytrace/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/raytrace/inst/amd64-linux.gcc/bin/rtview octahedron.obj -automove -nthreads 16 -frames 1 -res 1 1 ; } > perf_raytrace 2>> perf_raytrace
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_raytrace perf_raytrace
-#
-### Stream Cluster No input?? -> Maybe will get stuck
-##/sbin/m5 resetstats
-##{ time ./pkgs/kernels/streamcluster/inst/amd64-linux.gcc/bin/streamcluster 2 5 1 10 10 5 none output.txt 16 ; } > perf_streamcluster 2>> perf_streamcluster
-##/sbin/m5 dumpstats
-##/sbin/m5 writefile perf_streamcluster perf_streamcluster
-#
-## VIPS
-#tar xvf pkgs/apps/vips/inputs/input_test.tar
-#/sbin/m5 resetstats
-#{ time ./pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark barbados_256x288.v output.v ; } > perf_vips 2>> perf_vips
-#/sbin/m5 dumpstats
-#/sbin/m5 writefile perf_vips perf_vips
+# Dedup
+tar xvf pkgs/kernels/dedup/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/kernels/dedup/inst/amd64-linux.gcc/bin/dedup -c -p -v -t 16 -i test.dat -o output.dat.ddp ; } > perf_dedup 2>> perf_dedup
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_dedup perf_dedup
 
-# Finished
+# Ferret
+tar xvf pkgs/apps/ferret/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/ferret/inst/amd64-linux.gcc/bin/ferret corel lsh queries 5 5 16 output.txt ; } > perf_ferret 2>> perf_ferret
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_ferret perf_ferret
+
+# Raytrace
+tar xvf pkgs/apps/raytrace/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/raytrace/inst/amd64-linux.gcc/bin/rtview octahedron.obj -automove -nthreads 16 -frames 1 -res 1 1 ; } > perf_raytrace 2>> perf_raytrace
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_raytrace perf_raytrace
+
+# VIPS
+tar xvf pkgs/apps/vips/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark barbados_256x288.v output.v ; } > perf_vips 2>> perf_vips
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_vips perf_vips
+
+# Exit simulation
 /sbin/m5 exit
+
+# The tests below have issues that prevent succesful execution
+
+# Body Track
+# Ruby 64B segfaults
+tar xvf pkgs/apps/bodytrack/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/bodytrack/inst/amd64-linux.gcc/bin/bodytrack sequenceB_1 4 1 5 1 0 16 ; } > perf_bodytrack 2>> perf_bodytrack
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_bodytrack perf_bodytrack
+
+# Stream Cluster No input?? -> Maybe will get stuck
+# Warning of no input, test runs forever
+/sbin/m5 resetstats
+{ time ./pkgs/kernels/streamcluster/inst/amd64-linux.gcc/bin/streamcluster 2 5 1 10 10 5 none output.txt 16 ; } > perf_streamcluster 2>> perf_streamcluster
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_streamcluster perf_streamcluster
+
+# Fluid Animate
+# Bad function call error
+tar xvf pkgs/apps/fluidanimate/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/fluidanimate/inst/amd64-linux.gcc/bin/fluidanimate 16 1 in_5K.fluid out.fluid ; } > perf_fluidanimate 2>> perf_fluidanimate
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_fluidanimate perf_fluidanimate
+
+# freqmine
+# Bad function call error
+tar xvf pkgs/apps/freqmine/inputs/input_test.tar
+/sbin/m5 resetstats
+{ time ./pkgs/apps/freqmine/inst/amd64-linux.gcc/bin/freqmine T10I4D100K_3.dat 1 ; } > perf_freqmine 2>> perf_freqmine
+/sbin/m5 dumpstats
+/sbin/m5 writefile perf_freqmine perf_freqmine
