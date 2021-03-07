@@ -1,11 +1,13 @@
 # This makefile depends on Ubuntu 18.04, with Python 2.7
 
+# Utilities
 M5_DIR=$(PWD)/m5
 GEM5_DIR=$(PWD)/gem5
 GEM5_EXEC=$(GEM5_DIR)/build/X86/gem5.opt
 TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
 SCRIPTS_DIR=scripts
 
+# Sim configuration
 L2_SIZE=2MB
 MEM_MODEL=simple # or ruby
 BENCHMARK=blackscholes
@@ -13,12 +15,14 @@ BENCHMARK_SIZE=test
 
 # Derived variables
 ifeq ($(MEM_MODEL), ruby)
-	MEM_ARGS="--ruby --topology=Mesh_XY --mesh-rows=4"
+	MEM_ARGS=--ruby --topology=Mesh_XY --mesh-rows=4
 else
 	MEM_ARGS=--mem-type=SimpleMemory
 endif
 CHECKPOINT_DIR=ckpt_$(L2_SIZE)
 TEST_DIR=test_$(L2_SIZE)_$(MEM_MODEL)_$(BENCHMARK)_$(BENCHMARK_SIZE)
+
+# Functions
 
 install_dependencies:
 	echo "Installing dependencies"

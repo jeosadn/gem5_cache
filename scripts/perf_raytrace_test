@@ -1,0 +1,8 @@
+cd /parsec-3.0/
+
+tar xvf pkgs/apps/raytrace/inputs/input_test.tar
+/sbin/m5 resetstats
+./pkgs/apps/raytrace/inst/amd64-linux.gcc/bin/rtview octahedron.obj -automove -nthreads 16 -frames 1 -res 1 1 > raytrace_output
+/sbin/m5 dumpstats
+/sbin/m5 writefile raytrace_output raytrace_output
+/sbin/m5 exit
