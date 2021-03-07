@@ -70,6 +70,7 @@ run_sim:
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
 		$(MEM_ARGS) \
+		--abs-max-tick=999999999999999999 \
 		--num-cpus=16 \
 		--num-dirs=16 \
 		--num-l2caches=16 \
@@ -85,7 +86,7 @@ run_sim:
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
 		--script=$(SCRIPTS_DIR)/perf_$(BENCHMARK)_$(BENCHMARK_SIZE) \
-		;
+		|| true # Keep going even if sim fails
 	$(SCRIPTS_DIR)/parse_results $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
 
 interactive:

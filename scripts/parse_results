@@ -5,11 +5,13 @@ lines=$(echo "$stats" | wc -l)
 
 if [[ $lines -ne 2 ]]; then
     echo "test_$1_$2_$3_$4 unexpected stat results"
+    echo "$1,$2,$3,$4,ERROR" >> stat_database
     exit 1
+else
+    regex='([0-9]+)'
+    [[ "$stats" =~ $regex ]]
+
+    echo "$1,$2,$3,$4,${BASH_REMATCH[0]}" >> stat_database
+    exit 0
 fi
 
-regex='([0-9]+)'
-[[ "$stats" =~ $regex ]]
-
-echo "$1,$2,$3,$4,${BASH_REMATCH[0]}" | tee >> stat_database
-exit 0

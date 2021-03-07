@@ -1,0 +1,17 @@
+2MB,simple,blackscholes,test,3066103000
+2MB,simple,canneal,test,11127361500
+2MB,simple,dedup,test,23797239000
+2MB,simple,ferret,test,42815369000
+2MB,simple,raytrace,test,54703700000
+2MB,simple,vips,test,180075815500
+2MB,ruby,blackscholes,test,7086100500
+2MB,ruby,canneal,test,19611265000
+2MB,ruby,dedup,test,44303922000
+2MB,ruby,ferret,test,73253900500
+2MB,ruby,raytrace,test,70159296000
+2MB,ruby,vips,test,335050959500
+2MB,simple,blackscholes,simsmall,80089801500
+2MB,simple,canneal,simsmall,1860006656000
+2MB,simple,dedup,simsmall,362991737500
+2MB,simple,ferret,simsmall,42950924500
+2MB,simple,raytrace,simsmall,467568597500
