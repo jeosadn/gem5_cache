@@ -66,7 +66,7 @@ run_sim:
 	rm -rf $(TEST_DIR)
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
-	$(GEM5_EXEC) \
+	($(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
 		$(MEM_ARGS) \
@@ -86,7 +86,7 @@ run_sim:
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
 		--script=$(SCRIPTS_DIR)/perf_$(BENCHMARK)_$(BENCHMARK_SIZE) \
-		|| true # Keep going even if sim fails
+		2>&1 || true) > $(TEST_DIR)/sim_output
 	$(SCRIPTS_DIR)/parse_results $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
 
 interactive:
