@@ -2,7 +2,6 @@ cd /parsec-3.0/
 
 tar xvf pkgs/kernels/canneal/inputs/input_simsmall.tar
 /sbin/m5 resetstats
-./pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 10000 2000 100000.nets 32 > canneal_output
+./pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 10000 2000 100000.nets 32
 /sbin/m5 dumpstats
-/sbin/m5 writefile canneal_output canneal_output
 /sbin/m5 exit
