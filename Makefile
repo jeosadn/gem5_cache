@@ -66,6 +66,7 @@ run_sim:
 	rm -rf $(TEST_DIR)
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
+	echo `date +%s` >> $(TEST_DIR)/runtime.log
 	($(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
@@ -87,6 +88,7 @@ run_sim:
 		--restore-with-cpu=TimingSimpleCPU \
 		--script=$(SCRIPTS_DIR)/perf_$(BENCHMARK)_$(BENCHMARK_SIZE) \
 		2>&1 || true) > $(TEST_DIR)/sim_output
+	echo `date +%s` >> $(TEST_DIR)/runtime.log
 	$(SCRIPTS_DIR)/parse_results $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
 
 interactive:

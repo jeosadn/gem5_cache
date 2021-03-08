@@ -3,15 +3,19 @@
 stats=$(grep sim_ticks test_$1_$2_$3_$4/stats.txt)
 lines=$(echo "$stats" | wc -l)
 
+start_time=$(head -1 test_$1_$2_$3_$4/runtime.log)
+stop_time=$(tail -1 test_$1_$2_$3_$4/runtime.log)
+wallclock_time=$(($stop_time-$start_time))
+
 if [[ $lines -ne 2 ]]; then
     echo "test_$1_$2_$3_$4 unexpected stat results"
-    echo "$1,$2,$3,$4,ERROR" >> stat_database
+    echo "$1,$2,$3,$4,$start_time,$stop_time,$wallclock_time,ERROR" >> stat_database
     exit 1
 else
     regex='([0-9]+)'
     [[ "$stats" =~ $regex ]]
 
-    echo "$1,$2,$3,$4,${BASH_REMATCH[0]}" >> stat_database
+    echo "$1,$2,$3,$4,$start_time,$stop_time,$wallclock_time,${BASH_REMATCH[0]}" >> stat_database
     exit 0
 fi
 

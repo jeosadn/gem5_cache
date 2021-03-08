@@ -1,6 +1,6 @@
 cd /parsec-3.0/
 
-tar xvf pkgs/apps/vips/inputs/input_test.tar
+tar xvf pkgs/apps/vips/inputs/input_simsmall.tar
 /sbin/m5 resetstats
 ./pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark pomegranate_1600x1200.v output.v
 /sbin/m5 dumpstats
