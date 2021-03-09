@@ -9,13 +9,13 @@ SCRIPTS_DIR=scripts
 
 # Sim configuration
 L2_SIZE=2MB
-MEM_MODEL=simple # or ruby
+MEM_MODEL=simple# or ruby
 BENCHMARK=blackscholes
 BENCHMARK_SIZE=test
 
 # Derived variables
 ifeq ($(MEM_MODEL), ruby)
-	MEM_ARGS=--ruby --topology=Mesh_XY --mesh-rows=4
+	MEM_ARGS=--ruby --topology=Mesh_XY --mesh-rows=4 --debug-flags=Ruby
 else
 	MEM_ARGS=--mem-type=SimpleMemory
 endif
@@ -39,7 +39,10 @@ compile_gem5:
 
 create_checkpoint:
 	echo "Creating checkpoint $(CHECKPOINT_DIR)"
-	$(GEM5_EXEC) \
+	rm -rf $(CHECKPOINT_DIR)
+	mkdir -p $(CHECKPOINT_DIR)
+	echo `date +%s` >> $(CHECKPOINT_DIR)/runtime.log
+	($(GEM5_EXEC) \
 		--outdir=$(CHECKPOINT_DIR) \
 		$(TOPO_SCRIPT) \
 		--num-cpus=16 \
@@ -55,7 +58,8 @@ create_checkpoint:
 		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
 		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS \
-		;
+		2>&1 || true) > $(CHECKPOINT_DIR)/sim_output
+	echo `date +%s` >> $(CHECKPOINT_DIR)/runtime.log
 
 # Content of --script will be executed automatically. Be sure to call /sbin/m5 exit to finish simulation cleanly.
 # Otherwise, connect to the running simulation with:
