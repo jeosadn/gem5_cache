@@ -15,7 +15,7 @@ BENCHMARK_SIZE=test
 
 # Derived variables
 ifeq ($(MEM_MODEL), ruby)
-	MEM_ARGS=--ruby --topology=Mesh_XY --mesh-rows=4 --debug-flags=Ruby
+	MEM_ARGS=--ruby --topology=Mesh_XY --mesh-rows=4
 else
 	MEM_ARGS=--mem-type=SimpleMemory
 endif
