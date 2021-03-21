@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_vips_simsmall
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark pomegranate_1600x1200.v output.v
+/sbin/m5 dumpstats
+/sbin/m5 exit

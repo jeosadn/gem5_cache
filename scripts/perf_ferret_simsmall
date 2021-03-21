@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/apps/ferret/inputs/input_simsmall.tar
-/sbin/m5 resetstats
-./pkgs/apps/ferret/inst/amd64-linux.gcc/bin/ferret corel lsh queries 10 20 16 output.txt
-/sbin/m5 dumpstats
-/sbin/m5 exit

@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/kernels/canneal/inputs/input_test.tar
-/sbin/m5 resetstats
-./pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 5 100 10.nets 1
-/sbin/m5 dumpstats
-/sbin/m5 exit

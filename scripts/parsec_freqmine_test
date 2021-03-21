@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_freqmine_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/apps/freqmine/inst/amd64-linux.gcc/bin/freqmine T10I4D100K_3.dat 1
+/sbin/m5 dumpstats
+/sbin/m5 exit

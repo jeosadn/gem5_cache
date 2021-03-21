@@ -1,0 +1,6 @@
+cd /parsec-3.0/splash2x_waterspatial_simsmall
+
+/sbin/m5 resetstats
+/parsec-3.0/ext/splash2x/apps/water_spatial/inst/amd64-linux.gcc/bin/run.sh 16 simsmall
+/sbin/m5 dumpstats
+/sbin/m5 exit

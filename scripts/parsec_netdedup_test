@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_netdedup_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/netapps/netdedup/inst/amd64-linux.gcc/bin/run.sh 16 test
+/sbin/m5 dumpstats
+/sbin/m5 exit

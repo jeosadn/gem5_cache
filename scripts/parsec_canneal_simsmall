@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_canneal_simsmall
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 10000 2000 100000.nets 32
+/sbin/m5 dumpstats
+/sbin/m5 exit

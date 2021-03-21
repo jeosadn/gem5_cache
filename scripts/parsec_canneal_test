@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_canneal_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 5 100 10.nets 1
+/sbin/m5 dumpstats
+/sbin/m5 exit

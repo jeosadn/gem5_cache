@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_streamcluster_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/kernels/streamcluster/inst/amd64-linux.gcc/bin/streamcluster 2 5 1 10 10 5 none output.txt 16
+/sbin/m5 dumpstats
+/sbin/m5 exit

@@ -10,7 +10,7 @@ SCRIPTS_DIR=scripts
 # Sim configuration
 L2_SIZE=2MB
 MEM_MODEL=simple# or ruby
-BENCHMARK=blackscholes
+BENCHMARK=parsec_blackscholes
 BENCHMARK_SIZE=test
 
 # Derived variables
@@ -90,7 +90,7 @@ run_sim:
 		--disk-image=$(M5_DIR)/disks/linux_12G.img \
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
-		--script=$(SCRIPTS_DIR)/perf_$(BENCHMARK)_$(BENCHMARK_SIZE) \
+		--script=$(SCRIPTS_DIR)/$(BENCHMARK)_$(BENCHMARK_SIZE) \
 		2>&1 || true) > $(TEST_DIR)/sim_output
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
 	$(SCRIPTS_DIR)/parse_results $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)

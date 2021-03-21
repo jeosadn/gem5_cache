@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_blackscholes_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/apps/blackscholes/inst/amd64-linux.gcc/bin/blackscholes 16 in_4.txt prices.txt
+/sbin/m5 dumpstats
+/sbin/m5 exit

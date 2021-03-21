@@ -1,0 +1,6 @@
+cd /parsec-3.0/splash2x_fmm_test
+
+/sbin/m5 resetstats
+/parsec-3.0/ext/splash2x/apps/fmm/inst/amd64-linux.gcc/bin/run.sh 16 test
+/sbin/m5 dumpstats
+/sbin/m5 exit

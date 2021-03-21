@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/kernels/dedup/inputs/input_simsmall.tar
-/sbin/m5 resetstats
-./pkgs/kernels/dedup/inst/amd64-linux.gcc/bin/dedup -c -p -v -t 16 -i media.dat -o output.dat.ddp
-/sbin/m5 dumpstats
-/sbin/m5 exit

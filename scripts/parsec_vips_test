@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_vips_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark barbados_256x288.v output.v
+/sbin/m5 dumpstats
+/sbin/m5 exit

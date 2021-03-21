@@ -1,0 +1,6 @@
+cd /parsec-3.0/parsec_swaptions_test
+
+/sbin/m5 resetstats
+/parsec-3.0/pkgs/apps/swaptions/inst/amd64-linux.gcc/bin/swaptions -ns 1 -sm 5 -nt 16
+/sbin/m5 dumpstats
+/sbin/m5 exit

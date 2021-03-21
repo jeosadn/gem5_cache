@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/kernels/canneal/inputs/input_simmedium.tar
-/sbin/m5 resetstats
-./pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 16000 2000 200000.nets 64
-/sbin/m5 dumpstats
-/sbin/m5 exit

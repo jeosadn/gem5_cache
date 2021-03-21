@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/apps/vips/inputs/input_simmedium.tar
-/sbin/m5 resetstats
-./pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark vulture_2336x2336.v output.v
-/sbin/m5 dumpstats
-/sbin/m5 exit

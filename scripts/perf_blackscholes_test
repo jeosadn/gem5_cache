@@ -1,7 +1,0 @@
-cd /parsec-3.0/
-
-tar xvf pkgs/apps/blackscholes/inputs/input_test.tar
-/sbin/m5 resetstats
-./pkgs/apps/blackscholes/inst/amd64-linux.gcc/bin/blackscholes 16 in_4.txt prices.txt
-/sbin/m5 dumpstats
-/sbin/m5 exit
