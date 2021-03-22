@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_streamcluster_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=streamcluster
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/kernels/streamcluster/inst/amd64-linux.gcc/bin/streamcluster 10 20 32 4096 4096 1000 none output.txt 16

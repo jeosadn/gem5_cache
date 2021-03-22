@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_canneal_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=canneal
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/kernels/canneal/inst/amd64-linux.gcc/bin/canneal 16 10000 2000 100000.nets 32

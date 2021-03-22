@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_blackscholes_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=blackscholes
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/blackscholes/inst/amd64-linux.gcc/bin/blackscholes 16 in_4K.txt prices.txt

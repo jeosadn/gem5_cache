@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_netstreamcluster_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=netstreamcluster
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/netapps/netstreamcluster/inst/amd64-linux.gcc/bin/run.sh 16 simsmall

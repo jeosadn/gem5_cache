@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_ferret_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=ferret
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/ferret/inst/amd64-linux.gcc/bin/ferret corel lsh queries 10 20 16 output.txt

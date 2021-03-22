@@ -1,4 +1,7 @@
 cd /parsec-3.0/splash2x_barnes_test
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=barnes
 
 /sbin/m5 resetstats
 /parsec-3.0/ext/splash2x/apps/barnes/inst/amd64-linux.gcc/bin/run.sh 16 test

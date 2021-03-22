@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_facesim_test
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=facesim
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/facesim/inst/amd64-linux.gcc/bin/facesim -h

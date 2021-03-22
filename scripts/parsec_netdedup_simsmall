@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_netdedup_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=netdedup
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/netapps/netdedup/inst/amd64-linux.gcc/bin/netdedup -c -p -v -t 16 -i media.dat -o output.dat.ddp

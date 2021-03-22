@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_freqmine_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=freqmine
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/freqmine/inst/amd64-linux.gcc/bin/freqmine kosarak_250k.dat 220

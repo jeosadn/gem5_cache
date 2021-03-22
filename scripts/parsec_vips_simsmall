@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_vips_simsmall
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=vips
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/vips/inst/amd64-linux.gcc/bin/vips im_benchmark pomegranate_1600x1200.v output.v

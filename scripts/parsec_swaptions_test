@@ -1,4 +1,7 @@
 cd /parsec-3.0/parsec_swaptions_test
+export PARSECPLAT=amd64-linux.gcc
+export PARSECDIR=/parsec-3.0
+export TARGET=swaptions
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/apps/swaptions/inst/amd64-linux.gcc/bin/swaptions -ns 1 -sm 5 -nt 16
