@@ -9,6 +9,20 @@
 
 commands="
 #                    2MB,          simple,               test
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_barnes
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_cholesky
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_fft
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_fmm
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_lucb
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_luncb
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_oceancp
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_oceanncp
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_radiosity
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_radix
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_raytrace
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_volrend
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_waternsquared
+make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=splash2x_waterspatial
 make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=parsec_blackscholes
 make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=parsec_bodytrack
 make run_sim L2_SIZE=2MB MEM_MODEL=simple BENCHMARK_SIZE=test BENCHMARK=parsec_canneal
