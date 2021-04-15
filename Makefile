@@ -87,6 +87,7 @@ run_sim:
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
+	touch $(TEST_DIR)/RUN
 	if ($(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
@@ -109,6 +110,7 @@ run_sim:
 		2>&1) > $(TEST_DIR)/sim_output; then touch $(TEST_DIR)/PASS; else touch $(TEST_DIR)/FAIL; fi
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
 	$(SCRIPTS_DIR)/parse_results $(ARCH) $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE) >> stat_database
+	rm $(TEST_DIR)/RUN
 
 interactive:
 	echo "Running interactive simulation $(TEST_DIR)"
