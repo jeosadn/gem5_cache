@@ -20,6 +20,11 @@ ifeq ($(MEM_MODEL), ruby)
 else
 	MEM_ARGS=--mem-type=SimpleMemory
 endif
+ifeq ($(ARCH), ALPHA)
+	RESTORE_CPU=
+else
+	RESTORE_CPU=--restore-with-cpu=TimingSimpleCPU
+endif
 CHECKPOINT_DIR=ckpt/ckpt_$(ARCH)_$(L2_SIZE)
 TEST_DIR=test/test_$(ARCH)_$(L2_SIZE)_$(MEM_MODEL)_$(BENCHMARK)_$(BENCHMARK_SIZE)
 
@@ -82,7 +87,7 @@ run_sim:
 	mkdir -p $(TEST_DIR)
 	cp -r $(CHECKPOINT_DIR)/cpt.* $(TEST_DIR)/.
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
-	($(GEM5_EXEC) \
+	if ($(GEM5_EXEC) \
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
 		$(MEM_ARGS) \
@@ -99,11 +104,11 @@ run_sim:
 		--kernel=$(M5_DIR)/binaries/vmlinux \
 		--disk-image=$(M5_DIR)/disks/linux.img \
 		-r 1 \
-		--restore-with-cpu=TimingSimpleCPU \
+		$(RESTORE_CPU) \
 		--script=$(SCRIPTS_DIR)/$(ARCH)/$(BENCHMARK)_$(BENCHMARK_SIZE).rcS \
-		2>&1 || true) > $(TEST_DIR)/sim_output
+		2>&1) > $(TEST_DIR)/sim_output; then touch $(TEST_DIR)/PASS; else touch $(TEST_DIR)/FAIL; fi
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
-	$(SCRIPTS_DIR)/parse_results $(ARCH) $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
+	$(SCRIPTS_DIR)/parse_results $(ARCH) $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE) >> stat_database
 
 interactive:
 	echo "Running interactive simulation $(TEST_DIR)"
@@ -127,5 +132,5 @@ interactive:
 		--kernel=$(M5_DIR)/binaries/vmlinux \
 		--disk-image=$(M5_DIR)/disks/linux.img \
 		-r 1 \
-		--restore-with-cpu=TimingSimpleCPU \
+		$(RESTORE_CPU) \
 		;
