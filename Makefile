@@ -1,17 +1,18 @@
 # This makefile depends on Ubuntu 18.04, with Python 2.7
 
-# Utilities
-M5_DIR=$(PWD)/m5
-GEM5_DIR=$(PWD)/gem5
-GEM5_EXEC=$(GEM5_DIR)/build/X86/gem5.opt
-TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
-SCRIPTS_DIR=scripts
-
 # Sim configuration
+ARCH=ALPHA
 L2_SIZE=2MB
 MEM_MODEL=simple# or ruby
 BENCHMARK=parsec_blackscholes
 BENCHMARK_SIZE=test
+
+# Utilities
+M5_DIR=$(PWD)/m5_$(ARCH)
+GEM5_DIR=$(PWD)/gem5
+GEM5_EXEC=$(GEM5_DIR)/build/$(ARCH)/gem5.opt
+TOPO_SCRIPT=$(GEM5_DIR)/configs/example/fs.py
+SCRIPTS_DIR=scripts
 
 # Derived variables
 ifeq ($(MEM_MODEL), ruby)
@@ -19,8 +20,11 @@ ifeq ($(MEM_MODEL), ruby)
 else
 	MEM_ARGS=--mem-type=SimpleMemory
 endif
-CHECKPOINT_DIR=ckpt_$(L2_SIZE)
-TEST_DIR=test_$(L2_SIZE)_$(MEM_MODEL)_$(BENCHMARK)_$(BENCHMARK_SIZE)
+CHECKPOINT_DIR=ckpt/ckpt_$(ARCH)_$(L2_SIZE)
+TEST_DIR=test/test_$(ARCH)_$(L2_SIZE)_$(MEM_MODEL)_$(BENCHMARK)_$(BENCHMARK_SIZE)
+
+# Environment config
+export M5_PATH=$(M5_DIR)
 
 # Functions
 
@@ -35,7 +39,14 @@ compile_gem5:
 	git clone https://gem5.googlesource.com/public/gem5
 	cd $(GEM5_DIR) \
 		&& git reset --hard 9fc9c67b4242c03f165951775be5cd0812f2a705 \
-		&& scons $(GEM5_EXEC) PROCOTOL=MOESI_CMP_directory --ignore-style
+		&& scons $(GEM5_EXEC) PROCOTOL=MOESI_CMP_directory --ignore-style --jobs=4
+
+# https://superuser.com/questions/694430/how-to-inspect-disk-image
+mount_img:
+	mkdir -p /mnt/$(ARCH)_img
+	sudo modprobe loop
+	sudo mount -o loop,offset=32256 $(M5_DIR)/disks/linux.img /mnt/$(ARCH)_img
+	echo "Mounted $(M5_DIR)/disks/linux.img to /mnt/$(ARCH)_img"
 
 create_checkpoint:
 	echo "Creating checkpoint $(CHECKPOINT_DIR)"
@@ -55,8 +66,8 @@ create_checkpoint:
 		--l1i_assoc=8 \
 		--l2_assoc=16 \
 		--cacheline_size=64 \
-		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
-		--disk-image=$(M5_DIR)/disks/linux_12G.img \
+		--kernel=$(M5_DIR)/binaries/vmlinux \
+		--disk-image=$(M5_DIR)/disks/linux.img \
 		--script=$(GEM5_DIR)/configs/boot/hack_back_ckpt.rcS \
 		2>&1 || true) > $(CHECKPOINT_DIR)/sim_output
 	echo `date +%s` >> $(CHECKPOINT_DIR)/runtime.log
@@ -75,7 +86,6 @@ run_sim:
 		--outdir=$(TEST_DIR) \
 		$(TOPO_SCRIPT) \
 		$(MEM_ARGS) \
-		--abs-max-tick=999999999999999999 \
 		--num-cpus=16 \
 		--num-dirs=16 \
 		--num-l2caches=16 \
@@ -86,14 +96,14 @@ run_sim:
 		--l1i_assoc=8 \
 		--l2_assoc=16 \
 		--cacheline_size=64 \
-		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
-		--disk-image=$(M5_DIR)/disks/linux_12G.img \
+		--kernel=$(M5_DIR)/binaries/vmlinux \
+		--disk-image=$(M5_DIR)/disks/linux.img \
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
-		--script=$(SCRIPTS_DIR)/$(BENCHMARK)_$(BENCHMARK_SIZE) \
+		--script=$(SCRIPTS_DIR)/$(ARCH)/$(BENCHMARK)_$(BENCHMARK_SIZE).rcS \
 		2>&1 || true) > $(TEST_DIR)/sim_output
 	echo `date +%s` >> $(TEST_DIR)/runtime.log
-	$(SCRIPTS_DIR)/parse_results $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
+	$(SCRIPTS_DIR)/parse_results $(ARCH) $(L2_SIZE) $(MEM_MODEL) $(BENCHMARK) $(BENCHMARK_SIZE)
 
 interactive:
 	echo "Running interactive simulation $(TEST_DIR)"
@@ -114,8 +124,8 @@ interactive:
 		--l1i_assoc=8 \
 		--l2_assoc=16 \
 		--cacheline_size=64 \
-		--kernel=$(M5_DIR)/binaries/vmlinux_5_6_2 \
-		--disk-image=$(M5_DIR)/disks/linux_12G.img \
+		--kernel=$(M5_DIR)/binaries/vmlinux \
+		--disk-image=$(M5_DIR)/disks/linux.img \
 		-r 1 \
 		--restore-with-cpu=TimingSimpleCPU \
 		;
