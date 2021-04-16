@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+while true
+do
+    passing="$(find . | grep 'PASS$' | sort)"
+    running="$(find . | grep 'RUN$' | sort)"
+    failing="$(find . | grep 'FAIL$' | sort)"
+
+    echo "==================================================================="
+    if [ "$passing" = "" ]; then
+        echo "Passing: 0"
+    else
+        echo "Passing: " $(echo "$passing" | wc -l)
+        echo "$passing"
+    fi
+
+    if [ "$running" = "" ]; then
+        echo "Running: 0"
+    else
+        echo "Running :" $(echo "$running" | wc -l)
+        echo "$running"
+    fi
+
+    if [ "$failing" = "" ]; then
+        echo "Failing: 0"
+    else
+        echo "Failing :" $(echo "$failing" | wc -l)
+        echo "$failing"
+    fi
+    sleep 10
+done

@@ -1,19 +1,54 @@
 #!/bin/bash
 
-stats=$(grep sim_ticks test/test_$1_$2_$3_$4_$5/stats.txt | tail -2 | head -1)
-
+ticks=$(grep sim_ticks test/test_$1_$2_$3_$4_$5/stats.txt | tail -1 | sed 's/[^0-9]*//g')
 start_time=$(head -1 test/test_$1_$2_$3_$4_$5/runtime.log)
 stop_time=$(tail -1 test/test_$1_$2_$3_$4_$5/runtime.log)
 wallclock_time=$(($stop_time-$start_time))
 
-test_status="FAIL"
-if test -f "test/test_$1_$2_$3_$4_$5/PASS"; then
-    test_status="PASS"
+# Console name
+console=""
+if [[ $1 == "ALPHA" ]]; then
+    console="system.terminal"
+fi
+if [[ $1 == "X86" ]]; then
+    console="system.pc.com_1.device"
 fi
 
-regex='([0-9]+)'
-[[ "$stats" =~ $regex ]]
+# Check for fail conditions
+test_status="PASS"
+comment="No comment"
 
-echo "$1,$2,$3,$4,$5,$start_time,$stop_time,$wallclock_time,${BASH_REMATCH[0]},$test_status"
+# In simulation
+if test -f "test/test_$1_$2_$3_$4_$5/FAIL"; then
+    comment="Simulation ended unexpectedly. Check sim_output"
+    test_status="FAIL"
+fi
+declare -a arr=("deadlock" "bad_function_call")
+for i in "${arr[@]}"
+do
+    test_var=$(grep -i "$i" "test/test_$1_$2_$3_$4_$5/sim_output")
+    if [[ $test_var != "" ]]; then
+        comment="'$i' message in sim_output"
+        test_status="FAIL"
+    fi
+done
+
+# In benchmark
+test_var=$(grep "PASS" "test/test_$1_$2_$3_$4_$5/$console")
+if [[ $test_var == "" ]]; then
+    comment="No PASS message in $console"
+    test_status="FAIL"
+fi
+declare -a arr=("can't open" "fault" "abort")
+for i in "${arr[@]}"
+do
+    test_var=$(grep -i "$i" "test/test_$1_$2_$3_$4_$5/$console")
+    if [[ $test_var != "" ]]; then
+        comment="'$i' message in $console"
+        test_status="FAIL"
+    fi
+done
+
+echo "$1,$2,$3,$4,$5,$start_time,$stop_time,$wallclock_time,$ticks,$test_status,$comment"
 
 exit 0

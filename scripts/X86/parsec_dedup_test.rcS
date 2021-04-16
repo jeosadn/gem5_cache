@@ -1,3 +1,5 @@
+#!/bin/sh
+
 cd /parsec-3.0/parsec_dedup_test
 export PARSECPLAT=amd64-linux.gcc
 export PARSECDIR=/parsec-3.0
@@ -5,5 +7,5 @@ export TARGET=dedup
 
 /sbin/m5 resetstats
 /parsec-3.0/pkgs/kernels/dedup/inst/amd64-linux.gcc/bin/dedup -c -p -v -t 16 -i test.dat -o output.dat.ddp
-/sbin/m5 dumpstats
+echo "PASS"
 /sbin/m5 exit
