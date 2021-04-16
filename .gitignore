@@ -2,5 +2,3 @@ gem5
 m5_*
 *pyc
 *.log
-test/
-ckpt/
