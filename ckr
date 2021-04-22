@@ -14,12 +14,12 @@ do
         echo "$passing"
     fi
 
-    if [ "$running" = "" ]; then
-        echo "Running: 0"
-    else
-        echo "Running :" $(echo "$running" | wc -l)
-        echo "$running"
-    fi
+    #if [ "$running" = "" ]; then
+    #    echo "Running: 0"
+    #else
+    #    echo "Running :" $(echo "$running" | wc -l)
+    #    echo "$running"
+    #fi
 
     if [ "$failing" = "" ]; then
         echo "Failing: 0"

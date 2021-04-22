@@ -38,6 +38,14 @@ install_dependencies:
 	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
 		libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev \
 		python-dev python-six python libboost-all-dev pkg-config
+#	sudo apt install build-essential git m4 scons zlib1g zlib1g-dev \
+#		libprotobuf-dev protobuf-compiler libprotoc-dev libgoogle-perftools-dev \
+#		python3-dev python3-six python-is-python3 libboost-all-dev pkg-config \
+#		libhdf5-serial-dev
+
+#get_gem5:
+#	echo "Cloning gem5"
+#	git clone --branch stable https://gem5.googlesource.com/public/gem5
 
 compile_gem5:
 	echo "Compiling gem5"

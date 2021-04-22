@@ -14,41 +14,53 @@ if [[ $1 == "X86" ]]; then
     console="system.pc.com_1.device"
 fi
 
-# Check for fail conditions
-test_status="PASS"
-comment="No comment"
+# Check for sim conditions
+sim_status="PASS"
+sim_comment="No comment"
 
 # In simulation
 if test -f "test/test_$1_$2_$3_$4_$5/FAIL"; then
-    comment="Simulation ended unexpectedly. Check sim_output"
-    test_status="FAIL"
+    sim_comment="Simulation ended unexpectedly. Check sim_output"
+    sim_status="FAIL"
 fi
-declare -a arr=("panic" "deadlock" "bad_function_call")
+declare -a arr=("panic" "fatal" "deadlock" "bad_function_call")
 for i in "${arr[@]}"
 do
     test_var=$(grep -i "$i" "test/test_$1_$2_$3_$4_$5/sim_output")
     if [[ $test_var != "" ]]; then
-        comment="'$i' message in sim_output"
-        test_status="FAIL"
+        sim_comment="$test_var"
+        sim_status="FAIL"
     fi
 done
+
+# Check for benchmark conditions
+bench_status="PASS"
+bench_comment="No comment"
 
 # In benchmark
 test_var=$(grep "PASS" "test/test_$1_$2_$3_$4_$5/$console")
 if [[ $test_var == "" ]]; then
-    comment="No PASS message in $console"
-    test_status="FAIL"
+    bench_comment="No PASS message in $console"
+    bench_status="FAIL"
 fi
-declare -a arr=("can't open" "fault" "abort")
+declare -a arr=("can't open" "abort" "unknown" "segmentation fault" "segfault")
 for i in "${arr[@]}"
 do
     test_var=$(grep -i "$i" "test/test_$1_$2_$3_$4_$5/$console")
     if [[ $test_var != "" ]]; then
-        comment="'$i' message in $console"
-        test_status="FAIL"
+        bench_comment="$test_var"
+        bench_status="FAIL"
     fi
 done
 
-echo "$1,$2,$3,$4,$5,$start_time,$stop_time,$wallclock_time,$ticks,$test_status,$comment"
+# Cleanup messages
+sim_comment=$(echo $sim_comment | sed "s/,/;/")
+bench_comment=$(echo $bench_comment | sed "s/,/;/")
+
+# Print CSV
+if test ! -f "stat_database"; then
+    echo "ARCH,L2_SIZE,MEM_MODEL,BENCHMARK,BENCHMARK_SIZE,START_TIME,END_TIME,TIME,SIM_TICKS,SIM_STATUS,SIM_COMMENT,BENCH_STATUS,BENCH_COMMENT" >> stat_database
+fi
+echo "$1,$2,$3,$4,$5,$start_time,$stop_time,$wallclock_time,$ticks,$sim_status,$sim_comment,$bench_status,$bench_comment"
 
 exit 0
