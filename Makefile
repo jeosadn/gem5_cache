@@ -43,16 +43,16 @@ install_dependencies:
 #		python3-dev python3-six python-is-python3 libboost-all-dev pkg-config \
 #		libhdf5-serial-dev
 
-#get_gem5:
-#	echo "Cloning gem5"
-#	git clone --branch stable https://gem5.googlesource.com/public/gem5
+get_gem5:
+	echo "Cloning gem5"
+	git clone --branch stable https://gem5.googlesource.com/public/gem5
 
 compile_gem5:
 	echo "Compiling gem5"
-	git clone https://gem5.googlesource.com/public/gem5
 	cd $(GEM5_DIR) \
-		&& git reset --hard 9fc9c67b4242c03f165951775be5cd0812f2a705 \
+		&& git reset --hard 5cd4248672e5cd62cfec4753bd6d6ce666694f1f \
 		&& scons $(GEM5_EXEC) PROCOTOL=MOESI_CMP_directory --ignore-style --jobs=4
+		#&& git reset --hard 9fc9c67b4242c03f165951775be5cd0812f2a705 \
 
 # https://superuser.com/questions/694430/how-to-inspect-disk-image
 mount_img:
